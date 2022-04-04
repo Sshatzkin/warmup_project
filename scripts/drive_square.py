@@ -18,13 +18,13 @@ class DriveSquare(object):
     def run(self):
         # setup the Twist message we want to send
         forward = Twist(
-            linear=Vector3(0.1, 0, 0),
+            linear=Vector3(0.3, 0, 0),
             angular=Vector3(0, 0, 0)
         )
 
         left_turn = Twist(
             linear=Vector3(0, 0, 0),
-            angular=Vector3(0, 0, 0.1)
+            angular=Vector3(0, 0, 0.6)
         )
 
         stop = Twist(
@@ -35,9 +35,9 @@ class DriveSquare(object):
         # Drive in a square
         for i in range(4):
             self.robot_movement_pub.publish(forward)
-            rospy.sleep(2)
+            rospy.sleep(4)
             self.robot_movement_pub.publish(left_turn)
-            rospy.sleep(2)
+            rospy.sleep(3)
         self.robot_movement_pub.publish(stop)
 
 if __name__ == '__main__':
