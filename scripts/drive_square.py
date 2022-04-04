@@ -31,7 +31,7 @@ class DriveSquare(object):
             linear=Vector3(0, 0, 0),
             angular=Vector3(0, 0, 0)
         )
-
+        rospy.sleep(1)
         # Drive in a square
         for i in range(4):
             self.robot_movement_pub.publish(forward)
