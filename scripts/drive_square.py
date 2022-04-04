@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from turtle import forward
 import rospy
 
 # msgs needed for /cmd_vel
@@ -16,25 +17,28 @@ class DriveSquare(object):
 
     def run(self):
         # setup the Twist message we want to send
-        my_twist = Twist(
+        forward = Twist(
             linear=Vector3(0.1, 0, 0),
-            angular=Vector3(0, 0, 0.25)
+            angular=Vector3(0, 0, 0)
         )
 
-        # allow the publisher enough time to set up before publishing the first msg
-        rospy.sleep(1)
-
-        # publish the message
-        self.robot_movement_pub.publish(my_twist)
-
-        rospy.sleep(2)
-
-        twist2 = Twist(
-            linear=Vector3(0.1, 0, 0),
-            angular=Vector3(0, 0, -0.25)
+        left_turn = Twist(
+            linear=Vector3(0, 0, 0),
+            angular=Vector3(0, 0, 0.1)
         )
 
-        self.robot_movement_pub.publish(twist2)
+        stop = Twist(
+            linear=Vector3(0, 0, 0),
+            angular=Vector3(0, 0, 0)
+        )
+
+        # Drive in a square
+        for i in range(4):
+            self.robot_movement_pub.publish(forward)
+            rospy.sleep(2)
+            self.robot_movement_pub.publish(left_turn)
+            rospy.sleep(2)
+        self.robot_movement_pub.publish(stop)
 
 if __name__ == '__main__':
     # instantiate the ROS node and run it
