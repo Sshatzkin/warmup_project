@@ -13,7 +13,7 @@ A for loop iterate 4 times, and each time the robot drives forward for a short d
 I defined a DriveSquare class with 2 methods:
 
 - __init__ - Initializes the ros node that will be used by the rest of the code
-- run - Creates 3 Twists, forward, left turn, and stop, and runs the forward and left turns in a loop 4 times, then ends with a stop.
+- __run__ - Creates 3 Twists, forward, left turn, and stop. Then, start a loop that executes the forward movement, followed by the left turn 4 times each. After the loop, execute a stop.
 
 ### Gif
 
