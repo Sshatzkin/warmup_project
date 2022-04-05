@@ -37,4 +37,4 @@ It would also be interesting to build in features that allow the operator to spe
 
 ### Takeaways
 
-Takeaways (at least 2 bullet points with a few sentences per bullet point): What are your key takeaways from this project that would help you/others in future robot programming assignments? For each takeaway, provide a few sentences of elaboration.
+- Takeaway 1
