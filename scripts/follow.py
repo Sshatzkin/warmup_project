@@ -24,8 +24,8 @@ class Follower:
   def process_scan(self, data):
     # Get the number of points in the scan.
     num_points = len(data.ranges)
-    
-    if (data.ranges[0] == 0.0 or data.ranges[0] >= distance):
+
+    if (data.ranges[0] == 0.0 or data.ranges[0] >= stop_distance):
       # Go forward if not close enough to wall.
       self.twist.linear.x = 0.1
     else:
