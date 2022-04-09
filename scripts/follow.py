@@ -6,8 +6,12 @@ from sensor_msgs.msg import LaserScan
 
 # How close we will get to wall.
 stop_distance = 0.4
+max_distance = 4.0
+min_turn_speed = 0.2
 max_turn_speed = 1
+min_forward_speed = 0.1
 max_forward_speed = 0.8
+
 def get_min_nonZero(arr):
   min_val = 10000000
   min_index = None
@@ -39,30 +43,31 @@ class Follower:
 
       
       angle_to_person, dist_to_person  = get_min_nonZero(data.ranges)
+          #print("Angle to closest obj: ", angle_to_person)
+      
+      # Calculate and normalize to -1:1 the error in the angle to the person
+      angle_err = 0
+      if angle_to_person > 180:
+        angle_err = (angle_to_person - 360) / 180
+      else:
+        angle_err = angle_to_person / 180
+
+      # Calculate and normalize the distance from our target distance
+      dist_err = (dist_to_person - stop_distance) / (max_distance - stop_distance)
 
       # Set Forward Speed
-      self.twist.linear.x = (dist_to_person / 3.5) * max_forward_speed
-      #if (angle_to_person > 330 or angle_to_person < 30):
-      #  self.twist.linear.x = (dist_to_person / 3.5) * max_forward_speed
-      #else:
-      #  self.twist.linear.x = 0.1
-      print("Angle to closest obj: ", angle_to_person)
-
-      
+      forward_speed = dist_err * (max_forward_speed - min_forward_speed) + min_forward_speed
+      self.twist.linear.x = forward_speed
+  
       # Set Turn Speed
-      turn_speed = 0
-      if (angle_to_person > 180):
-        turn_speed = ((angle_to_person - 360) / 180) * max_turn_speed
-      else:
-        turn_speed = (angle_to_person / 180) * max_turn_speed
-     
-      print("Turn Speed: ", turn_speed)
-
+      turn_speed = angle_err * (max_turn_speed - min_turn_speed) + min_turn_speed
       self.twist.angular.z = turn_speed
+
+      print("Forward Speed: ", forward_speed, "Turn Speed: ", turn_speed)
     else:
       # Close enough to wall, stop.
       self.twist.linear.x = 0
-      self.twist.angular.z=0
+      self.twist.angular.z = 0
     # Publish msg to cmd_vel.
     self.twist_pub.publish(self.twist)
   
