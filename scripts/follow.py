@@ -6,12 +6,17 @@ from sensor_msgs.msg import LaserScan
 
 # How close we will get to wall.
 stop_distance = 0.4
+# Distance at which we will move at the max speed
 max_distance = 3.0
+
 min_turn_speed = 0.1
 max_turn_speed = 0.8
 min_forward_speed = 0
 max_forward_speed = 0.8
 
+# Takes an array of values and returns the smallest non-zero value
+# This is used to find the nearest "object" in the ranges array for the 
+#   robot to follow
 def get_min_nonZero(arr):
   min_val = 10000000
   min_index = None
@@ -21,6 +26,7 @@ def get_min_nonZero(arr):
       min_index = i
   return min_index, min_val
     
+# Follower class defines the person-following behavior for the robot
 class Follower:
   def __init__(self):
     # Start rospy node.
@@ -36,15 +42,13 @@ class Follower:
     self.twist = Twist(linear=lin,angular=ang)
 
   def process_scan(self, data):
-    
+  
     if (data.ranges[0] == 0 or data.ranges[0] >= stop_distance):
-      # Go forward if not close enough to wall.
-      print("Going Forward - range: " + str(data.ranges[0]))
+      # Go forward if not facing a person / wall
 
-      
+      # Set the angle and distance to nearest object
       angle_to_person, dist_to_person  = get_min_nonZero(data.ranges)
       print("Angle to person: " + str(angle_to_person) + " dist: " + str(dist_to_person))
-          #print("Angle to closest obj: ", angle_to_person)
       
       # Calculate and normalize to -1:1 the error in the angle to the person
       angle_err = 0
@@ -55,19 +59,19 @@ class Follower:
 
       # Calculate and normalize the distance from our target distance
       dist_err = (dist_to_person - stop_distance) / (max_distance - stop_distance)
+
       print("Angle Err: " + str(angle_err) + "Dist err: " + str(dist_err))
 
-      # Set Forward Speed
+      # Set Forward Speed based on distance from target and angle to target
       forward_speed = max(dist_err * max_forward_speed * (1-abs(angle_err)), min_forward_speed)
       self.twist.linear.x = forward_speed
-  
-      # Set Turn Speed
+
+      # Set Turn Speed based on angle to target
       turn_speed = 0
       if angle_err > 0:
         turn_speed = max(angle_err * max_turn_speed, min_turn_speed)
       else:
         turn_speed = min(angle_err * max_turn_speed, -min_turn_speed)
-        # + (min_turn_speed if (angle_err > 0) else (- angle_err))
       self.twist.angular.z = turn_speed
 
       print("Forward Speed: ", forward_speed, "Turn Speed: ", turn_speed)
@@ -75,6 +79,7 @@ class Follower:
       # Close enough to wall, stop.
       self.twist.linear.x = 0
       self.twist.angular.z = 0
+      
     # Publish msg to cmd_vel.
     self.twist_pub.publish(self.twist)
   

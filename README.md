@@ -19,6 +19,22 @@ I defined a DriveSquare class with 2 methods:
 
 ![drive_square.gif](https://github.com/Sshatzkin/warmup_project/blob/main/drive_square.gif)
 
+## Follow a Person
+
+### Description
+
+The robot follows me __TO DO__
+### Code Explanation
+
+I defined a Follow class with 2 methods:
+
+- __init__ - Initializes the ros node that will be used by the rest of the code
+- __run__ - TODO
+
+### Gif
+
+![follow.gif](https://github.com/Sshatzkin/warmup_project/blob/main/follow.gif)
+
 
 ## Conclusions
 ### Challenges
