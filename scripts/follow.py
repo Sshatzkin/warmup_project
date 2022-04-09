@@ -8,9 +8,9 @@ from sensor_msgs.msg import LaserScan
 stop_distance = 0.4
 max_distance = 4.0
 min_turn_speed = 0.2
-max_turn_speed = 1
-min_forward_speed = 0.1
-max_forward_speed = 0.8
+max_turn_speed = 0.8
+min_forward_speed = 0
+max_forward_speed = 0.7
 
 def get_min_nonZero(arr):
   min_val = 10000000
@@ -43,6 +43,7 @@ class Follower:
 
       
       angle_to_person, dist_to_person  = get_min_nonZero(data.ranges)
+      print("Angle to person: " + str(angle_to_person) + " dist: " + str(dist_to_person))
           #print("Angle to closest obj: ", angle_to_person)
       
       # Calculate and normalize to -1:1 the error in the angle to the person
