@@ -55,6 +55,7 @@ class Follower:
 
       # Calculate and normalize the distance from our target distance
       dist_err = (dist_to_person - stop_distance) / (max_distance - stop_distance)
+      print("Angle Err: " + str(angle_err) + "Dist err: " + str(dist_err))
 
       # Set Forward Speed
       forward_speed = dist_err * (max_forward_speed - min_forward_speed) + min_forward_speed
