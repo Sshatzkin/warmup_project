@@ -6,11 +6,11 @@ from sensor_msgs.msg import LaserScan
 
 # How close we will get to wall.
 stop_distance = 0.4
-max_distance = 4.0
-min_turn_speed = 0.2
+max_distance = 3.0
+min_turn_speed = 0.1
 max_turn_speed = 0.8
 min_forward_speed = 0
-max_forward_speed = 0.7
+max_forward_speed = 0.8
 
 def get_min_nonZero(arr):
   min_val = 10000000
@@ -58,11 +58,16 @@ class Follower:
       print("Angle Err: " + str(angle_err) + "Dist err: " + str(dist_err))
 
       # Set Forward Speed
-      forward_speed = max(dist_err * max_forward_speed, min_forward_speed)
+      forward_speed = max(dist_err * max_forward_speed * (1-abs(angle_err)), min_forward_speed)
       self.twist.linear.x = forward_speed
   
       # Set Turn Speed
-      turn_speed = angle_err * (max_turn_speed - min_turn_speed) + (min_turn_speed if (angle_err > 0) else (- angle_err))
+      turn_speed = 0
+      if angle_err > 0:
+        turn_speed = max(angle_err * max_turn_speed, min_turn_speed)
+      else:
+        turn_speed = min(angle_err * max_turn_speed, -min_turn_speed)
+        # + (min_turn_speed if (angle_err > 0) else (- angle_err))
       self.twist.angular.z = turn_speed
 
       print("Forward Speed: ", forward_speed, "Turn Speed: ", turn_speed)
