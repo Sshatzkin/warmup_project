@@ -62,7 +62,7 @@ class Follower:
       self.twist.linear.x = forward_speed
   
       # Set Turn Speed
-      turn_speed = angle_err * (max_turn_speed - min_turn_speed) + min_turn_speed
+      turn_speed = angle_err * (max_turn_speed - min_turn_speed) + (min_turn_speed if (angle_err > 0) else - angle_err)
       self.twist.angular.z = turn_speed
 
       print("Forward Speed: ", forward_speed, "Turn Speed: ", turn_speed)
