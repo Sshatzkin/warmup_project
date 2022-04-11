@@ -37,6 +37,7 @@ I defined a Follow class with 2 methods:
 
 
 ## Conclusions
+
 ### Challenges
 
 The greatest challenge for this first project was setting up my programming environment. I believe that I spent somewhere around 8 hours getting all of VMs working and ROS installed in a way that would successfully run and connect to the robot. My final configuration involved installing a clean Ubuntu VM using Virtual Box, and installing ROS and all of its dependencies on that.
