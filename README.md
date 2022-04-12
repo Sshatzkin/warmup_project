@@ -23,7 +23,7 @@ I defined a DriveSquare class with 2 methods:
 
 ### Description
 
-The robot follows me __TO DO__
+The robot identifies the angle and distance to the nearest point identified by the LIDAR scanner, and it steers toward this point. The movement and rotation speed are modified via a proportional control mechanism relative to the angle and distance from target.
 ### Code Explanation
 
 I defined a Follow class with 2 methods:
@@ -34,6 +34,22 @@ I defined a Follow class with 2 methods:
 ### Gif
 
 ![follow.gif](https://github.com/Sshatzkin/warmup_project/blob/main/follow.gif)
+
+## Follow a Wall
+
+### Description
+
+The robot follows wall __TO DO__
+### Code Explanation
+
+I defined a Follow_Wall class with 2 methods:
+
+- __init__ - Initializes the ros node that will be used by the rest of the code
+- __run__ - TODO
+
+### Gif
+
+![follow_wall.gif](https://github.com/Sshatzkin/warmup_project/blob/main/follow_wall.gif)
 
 
 ## Conclusions
