@@ -2,6 +2,7 @@
 
 ## Driving in a Square
 
+![drive_square.gif](https://github.com/Sshatzkin/warmup_project/blob/main/drive_square.gif)
 ### Description
 
 I drove the robot in a square using only twist commands and ros.sleep commands to control the timing of each action.
@@ -15,18 +16,15 @@ I defined a DriveSquare class with 2 methods:
 - __init__ - Initializes the ros node that will be used by the rest of the code
 - __run__ - Creates 3 Twists, forward, left turn, and stop. Then, start a loop that executes the forward movement, followed by the left turn 4 times each. After the loop, execute a stop.
 
-### Gif
-
-![drive_square.gif](https://github.com/Sshatzkin/warmup_project/blob/main/drive_square.gif)
-
 ## Follow a Person
+
+![follow.gif](https://github.com/Sshatzkin/warmup_project/blob/main/follow.gif)
 
 ### Description
 
 The robot identifies the angle and distance to the nearest point identified by the LIDAR scanner, and it steers toward this point. The movement and rotation speed are modified via a proportional control mechanism relative to the angle and distance from target.
 
 ### Code Explanation
-![follow.gif](https://github.com/Sshatzkin/warmup_project/blob/main/follow.gif)
 
 I defined a Follow class with 3 methods:
 
@@ -66,18 +64,16 @@ Additionally, I defined a helper function __alligned__, that is used to determin
 
 ### Challenges
 
-The greatest challenge for this first project was setting up my programming environment. I believe that I spent somewhere around 8 hours getting all of VMs working and ROS installed in a way that would successfully run and connect to the robot. My final configuration involved installing a clean Ubuntu VM using Virtual Box, and installing ROS and all of its dependencies on that.
+The initially, my primary challenge was setting up my programming environment. I believe that I spent somewhere around 8 hours getting all of VMs working and ROS installed in a way that would successfully run and connect to the robot. My final configuration involved installing a clean Ubuntu VM using Virtual Box, and installing ROS and all of its dependencies on that.
 
-Driving the robot in a square was not a significant challenge, but it did require some tuning to find rotation speeds and durations that best approximate right angles. I played with a few different configurations before settling on the one included in my submission.
+The primary coding challenge for this assignment was tuning the parameters used to drive the robot. For each task, I was able to come up with a successful logic structure quite quickly, but these solutions were slow or resulted in the robot overshooting its targets. It took many iterations of tuning speeds and distances, as well as parameters used in my proportional control formulas.
 
 ### Future Work
 
-If I had more time, I would have achieved this project using the odometry approach because it would be much more helpful for achieving precise turns. With the timing approach I used, there is always a little bit of error because the robot's turns can be affected by friction with the surface it's driving on and other factors which lead to variability in each turn.
-
-Using odometry data and external sensors could help the robot position itself better in the world, and make more precise movements tracing out a square.
-
-It would also be interesting to build in features that allow the operator to specify a square size, and maybe a square position in the space, and have the robot trace out that shape.
+If I had more time, I would have taken the time to build PID controllers for the person and wall following behaviors. Especially in the case of the person following behavior, using the rate of change of distance and angle to the person would allow the robot to follow much more efficient paths when following the person. The wall following robot could also benefit from this - a PID controller would allow the robot to more consistently allign itself with the target distance.
 
 ### Takeaways
 
-- Takeaway 1
+1. Tuning the parameters of a control scheme is extremely important. Small differences in constants used to paramterize the control functions can make a very large difference in the resultant robot behavior.
+2. Sensors are flawed. The LIDAR sensor on the turtlebot may sometimes return innacurate values and the scanner returns results at an unpredictable rate. This variability means that the robot often needs to move cautiously so as to not overshoot a target in between scans or after one innacurate reading leads it astray. In order for the robot to move faster without it being reckless, we would need to increase the scanning rate or include duplicate sensors that can compare results with each other.
+3. Complex behaviors can be achieved with simple logic. The solutions I've submitted to each of these problems involve very basic logic for the robot to follow. The robot uses a few data points collected from the LIDAR sensor to take one of a small set of actions. The real complexity comes from the proportional control systems that adjust the severity of the robot's actions to its current environment state.
