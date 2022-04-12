@@ -14,17 +14,6 @@ max_left_dist = 0.4
 adjustment_speed = 0.2
 right_turn_speed = -0.5
 forward_speed = 0.3
-
-# Distance at which we will move at the max speed
-max_distance = 3.0
-
-min_turn_speed = 0.1
-max_turn_speed = 0.8
-min_forward_speed = 0
-max_forward_speed = 0.8
-
-
-#def inRange(val, min, max):
   
 # Returns 0 if alligned, 1 for left, -1 for right
 def alligned(ranges):
@@ -85,44 +74,6 @@ class Wall_Follower:
 
     # Publish msg to cmd_vel.
     self.twist_pub.publish(self.twist)
-    """if (data.ranges[0] == 0 or data.ranges[0] >= stop_distance):
-      # Go forward if not facing a person / wall
-
-      # Set the angle and distance to nearest object
-      angle_to_person, dist_to_person  = get_min_nonZero(data.ranges)
-      print("Angle to person: " + str(angle_to_person) + " dist: " + str(dist_to_person))
-      
-      # Calculate and normalize to -1:1 the error in the angle to the person
-      angle_err = 0
-      if angle_to_person > 180:
-        angle_err = (angle_to_person - 360) / 180
-      else:
-        angle_err = angle_to_person / 180
-
-      # Calculate and normalize the distance from our target distance
-      dist_err = (dist_to_person - stop_distance) / (max_distance - stop_distance)
-
-      print("Angle Err: " + str(angle_err) + "Dist err: " + str(dist_err))
-
-      # Set Forward Speed based on distance from target and angle to target
-      forward_speed = max(dist_err * max_forward_speed * (1-abs(angle_err)), min_forward_speed)
-      self.twist.linear.x = forward_speed
-
-      # Set Turn Speed based on angle to target
-      turn_speed = 0
-      if angle_err > 0:
-        turn_speed = max(angle_err * max_turn_speed, min_turn_speed)
-      else:
-        turn_speed = min(angle_err * max_turn_speed, -min_turn_speed)
-      self.twist.angular.z = turn_speed
-
-      print("Forward Speed: ", forward_speed, "Turn Speed: ", turn_speed)
-    else:
-      # Close enough to wall, stop.
-      self.twist.linear.x = 0
-      self.twist.angular.z = 0"""
-      
-    
   
   def run(self):
     # Keep the program alive.
